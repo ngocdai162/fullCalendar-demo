@@ -1,20 +1,26 @@
-p {
-    color: red;
-}
-
-.calendar__page{
-    display: flex;
-    width: 100%;
+.calendar__page {
+  display: flex;
 }
 
 .calendar__container {
-    width: 80%;
-}
-
-.calendar__container__header {
-    height: 60px;
+  width: 80%;
+  padding: 20px;
 }
 
 .calendar__sidebar {
-    width: 20%;
+  width: 20%;
+  padding: 20px;
+}
+
+.calendar__sidebar__container {
+  height: 80vh;
+  overflow-y: scroll ;
+}
+
+.event__block {
+  padding: 10px;
+  border-radius: 5px;
+  background-color:  rgb(246, 112, 175);
+  border-left : 3px solid rgb(224, 4, 249);
+  margin-bottom: 5px;
 }
