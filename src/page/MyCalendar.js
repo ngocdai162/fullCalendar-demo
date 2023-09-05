@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -8,20 +8,23 @@ import { ListEvent } from '../data/listEvent';
 
 
 export const MyCalendar = () => {
-  const containerEl = useRef();
+  const containerEl = useRef(null);
+  const dragObj = useRef(false);
 
   useEffect(()=> {
-    new Draggable(containerEl.current, {
+   if(dragObj.current === false) {
+    dragObj.current =  new Draggable(containerEl.current, {
       itemSelector:'.event__block',
       eventData : (eventEl) => {
         console.log('eventEl',eventEl)
         return {
           title: eventEl.innerText,
-          duration: '02:00'
+          duration: '02:00',
         };
       }
     });
-  },[])
+   }
+  },[dragObj])
 
   const handleDateClick = () => {
     console.log('click')
@@ -37,6 +40,7 @@ export const MyCalendar = () => {
                  defaultView= 'timeGridWeek'
                  droppable ={true}
                  dateClick={handleDateClick}
+                 eventReceive={()=>{console.log('nhận')}}
              />
             </div>
           </div>   
