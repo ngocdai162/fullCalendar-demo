@@ -1,0 +1,20 @@
+p {
+    color: red;
+}
+
+.calendar__page{
+    display: flex;
+    width: 100%;
+}
+
+.calendar__container {
+    width: 80%;
+}
+
+.calendar__container__header {
+    height: 60px;
+}
+
+.calendar__sidebar {
+    width: 20%;
+}
