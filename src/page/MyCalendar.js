@@ -11,26 +11,22 @@ export const MyCalendar = () => {
   const containerEl = useRef();
 
   useEffect(()=> {
-    console.log('keos')
-  })
-
-  const handleDateClick = () => {
-    console.log('click')
-  }
-
-  const handleDrag = () => {
-    console.log('kes')
     new Draggable(containerEl.current, {
       itemSelector:'.event__block',
       eventData : (eventEl) => {
+        console.log('eventEl',eventEl)
         return {
           title: eventEl.innerText,
           duration: '02:00'
         };
       }
     });
+  },[])
+
+  const handleDateClick = () => {
+    console.log('click')
   }
-  
+
     return <div className='calendar__page'>
         <div className='calendar__container'>
           <div className='calendar__container__header'>header</div>
@@ -49,14 +45,12 @@ export const MyCalendar = () => {
           <h1>List event</h1>
           <div ref={containerEl} className='calendar__sidebar__container'>
             {ListEvent.data.map((item, index) => (
-               <div className='event__block' draggable= {true} onDragStart={handleDrag}>
+               <div className='event__block' draggable= {true} >
                  <p>{item.tile.header}<br/>{item.tile.content.join(" ")}</p>
                </div>
             ))}
           </div>
-         
       </div>
-      
     </div>
 }
 
