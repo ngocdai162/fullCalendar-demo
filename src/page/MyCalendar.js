@@ -30,8 +30,6 @@ export const MyCalendar = () => {
       start: datePicker.startDate,
       end:  datePicker.endDate
     });
-    
-
   },[datePicker])
 
 
@@ -49,8 +47,8 @@ export const MyCalendar = () => {
    }
   },[dragObj])
 
-  const onChangeviewType = (type) => {
-    setviewType(type)
+ const onChangeviewType = (type) => {
+  setviewType(type)
  }   
   
  const getDatePicker = (start, end) => {
@@ -60,11 +58,13 @@ export const MyCalendar = () => {
    })
   }
   
-  const handleDateClick = () => {}
+  const handleDateClick = (info) => {
+    info.event.remove()
+  }
 
   const eventsData = ListEvent.data.map((item, index) => {
     return  {
-      id : String(item.event.id),
+      id :item.event.id,
       title:item.tile.content,
       start : item.time_window.start,
       end : item.time_window.end
@@ -87,12 +87,8 @@ export const MyCalendar = () => {
                  ref={calendarRef}
                  events = {eventsData}
                  editable = {true}
-                 eventClick= {function(info) {
-                  info.event.setProp('id',1)
-                  console.log(calendarRef.current)
-                  // calendarRef.current.removeEvents(event.event._def.publicId)
-                  }
-                 }
+                
+                 eventClick= {handleDateClick}
                />
             </div>
           </div>   

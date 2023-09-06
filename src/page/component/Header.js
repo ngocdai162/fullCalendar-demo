@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./header.css"
 import { filterConst } from "../../const/calendar";
 import { Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined , RightOutlined, LeftOutlined} from '@ant-design/icons';
 
 
 export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
@@ -61,7 +61,7 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
         setStartDate(new Date());
         setEndDate(datePoint)
     }
-
+ 
     return (
         <div className="header">
             <div className="calendar-filter">
@@ -78,7 +78,7 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
              </Dropdown>
             </div>
             <div className="date-picker-block">
-            <ReactDatePicker 
+             <ReactDatePicker 
               dateFormat="yyyy/MM/dd"
               selected={startDate} 
               onChange={onChange} 
@@ -86,7 +86,7 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
               endDate={endDate}
               selectsRange
               monthsShown={2}
-            />
+             />
             </div>
         </div>
     )

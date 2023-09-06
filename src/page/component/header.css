@@ -11,3 +11,8 @@
 .react-datepicker-popper {
     z-index: 100;
 }
+
+.control-block {
+    display: flex;
+    margin-left: 30px;
+}
