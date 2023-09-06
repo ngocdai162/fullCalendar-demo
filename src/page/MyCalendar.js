@@ -5,18 +5,39 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import './myCalendar.css';
 import { ListEvent } from '../data/listEvent';
+import { Header } from './component/Header';
+import { filterConst } from '../const/calendar';
 
 
 export const MyCalendar = () => {
   const containerEl = useRef(null);
+  const calendarRef = useRef(null)
   const dragObj = useRef(false);
+  const [viewType, setviewType] = useState(filterConst.day);
+  const [datePicker, setDatePicker] = useState({
+    startDate: null,
+    endDate:  null
+  });
+  
+  useEffect(()=> {
+    const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
+    calendarApi && calendarApi.changeView(viewType.type);
+  },[viewType])
+
+  useEffect(() => {
+    const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
+    calendarApi && calendarApi.changeView('timeGrid',{
+      start: datePicker.startDate,
+      end:  datePicker.endDate
+    });
+  },[datePicker])
+
 
   useEffect(()=> {
    if(dragObj.current === false) {
     dragObj.current =  new Draggable(containerEl.current, {
       itemSelector:'.event__block',
       eventData : (eventEl) => {
-        console.log('eventEl',eventEl)
         return {
           title: eventEl.innerText,
           duration: '02:00',
@@ -26,21 +47,35 @@ export const MyCalendar = () => {
    }
   },[dragObj])
 
-  const handleDateClick = () => {
-    console.log('click')
-  }
+  const onChangeviewType = (type) => {
+    setviewType(type)
+ }   
+  
+ const getDatePicker = (start, end) => {
+  setDatePicker({
+    startDate :  start,
+    endDate : end
+   })
+ }
+
+
+  const handleDateClick = () => {}
 
     return <div className='calendar__page'>
         <div className='calendar__container'>
-          <div className='calendar__container__header'>header</div>
+          <div className='calendar__container__header'>
+             <Header viewType = {viewType} onChangeFilter={onChangeviewType} getDatePicker={getDatePicker}/>
+          </div>
           <div className='calendar__container__main'>
              <div id='calendar-container'>
                <FullCalendar
-                 plugins={[timeGridPlugin, interactionPlugin]}
+                 plugins={[timeGridPlugin, interactionPlugin,dayGridPlugin]}
                  defaultView= 'timeGridWeek'
                  droppable ={true}
                  dateClick={handleDateClick}
-                 eventReceive={()=>{console.log('nhận')}}
+                 initialView={viewType.type}
+                 ref={calendarRef}
+                 dateFormat="MMMM d, yyyy h:mmaa"
              />
             </div>
           </div>   

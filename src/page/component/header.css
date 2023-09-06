@@ -1,0 +1,13 @@
+
+.header {
+    display: flex;
+    padding: 10px;
+}
+
+.date-picker-block {
+    margin-left: 30px;
+}
+
+.react-datepicker-popper {
+    z-index: 100;
+}
