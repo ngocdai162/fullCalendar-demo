@@ -18,7 +18,7 @@ export const MyCalendar = () => {
     startDate: null,
     endDate:  null
   });
-  
+
   useEffect(()=> {
     const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
     calendarApi && calendarApi.changeView(viewType.type);
@@ -30,6 +30,8 @@ export const MyCalendar = () => {
       start: datePicker.startDate,
       end:  datePicker.endDate
     });
+    
+
   },[datePicker])
 
 
@@ -56,10 +58,18 @@ export const MyCalendar = () => {
     startDate :  start,
     endDate : end
    })
- }
-
-
+  }
+  
   const handleDateClick = () => {}
+
+  const eventsData = ListEvent.data.map((item, index) => {
+    return  {
+      id : String(item.event.id),
+      title:item.tile.content,
+      start : item.time_window.start,
+      end : item.time_window.end
+    }
+  })
 
     return <div className='calendar__page'>
         <div className='calendar__container'>
@@ -75,8 +85,15 @@ export const MyCalendar = () => {
                  dateClick={handleDateClick}
                  initialView={viewType.type}
                  ref={calendarRef}
-                 dateFormat="MMMM d, yyyy h:mmaa"
-             />
+                 events = {eventsData}
+                 editable = {true}
+                 eventClick= {function(info) {
+                  info.event.setProp('id',1)
+                  console.log(calendarRef.current)
+                  // calendarRef.current.removeEvents(event.event._def.publicId)
+                  }
+                 }
+               />
             </div>
           </div>   
        </div>

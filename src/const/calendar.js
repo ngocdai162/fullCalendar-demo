@@ -1,8 +1,3 @@
-// export const filterConst = {
-//     DAY : 'day',
-//     WEEK : 'week',
-//     MONTH : 'month'
-//  }
 
 export const filterConst = {
     day : {
@@ -24,10 +19,5 @@ export const filterConst = {
     week_3 : {
         type: '3-week',
         content:  '3 Weeks'
-    },
-    week_4 : {
-        type: '4-week',
-        content:  '4 Weeks'
     }
-   
 }

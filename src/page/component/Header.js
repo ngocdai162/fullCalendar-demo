@@ -40,10 +40,6 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
             label: <button onClick={() => handleAddDate(21)}>{filterConst.week_3.content}</button>,
             key: '5',
         },
-        {
-            label: <button onClick={() => handleAddDate(28)}>{filterConst.week_4.content}</button>,
-            key: '5',
-        },
     ]
  
      
@@ -55,7 +51,7 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
 
     const formatDate = (str) => {
         let dateStr = String(str.getDate()).length === 1 ? `0${str.getDate()}` : `${str.getDate()}`
-        let monthStr = String(str.getMonth()).length === 1 ? `0${str.getMonth()}` : `${str.getMonth()}`
+        let monthStr = String(str.getMonth()).length === 1 ? `0${str.getMonth() + 1}` : `${str.getMonth()}`
         return `${str.getFullYear()}-${monthStr}-${dateStr}`;
     }
 
