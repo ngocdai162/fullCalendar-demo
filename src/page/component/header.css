@@ -16,6 +16,14 @@
     display: flex;
     margin-left: 30px;
 }
+
+.control-block button {
+    cursor:pointer;
+}
+
+.control-block button:first-child {
+    margin-right: 20px;
+}
 .ant-dropdown-menu-item button {
     width: 100%;
 }

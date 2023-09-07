@@ -17,10 +17,18 @@
   overflow-y: scroll ;
 }
 
+.calendar__container__main {
+  margin-top: 20px;
+}
+
 .event__block {
   padding: 10px;
   border-radius: 5px;
   background-color:  rgb(246, 112, 175);
   border-left : 3px solid rgb(224, 4, 249);
   margin-bottom: 5px;
+}
+
+.button {
+  cursor: pointer;
 }

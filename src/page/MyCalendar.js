@@ -74,6 +74,19 @@ export const MyCalendar = () => {
   const deleteEvent= (info) => {
     info.event.remove()
   }
+
+  const  calendarJump = (type) => {
+    const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
+    if(type === 'today') { 
+      setviewType(filterConst.day)
+      return;
+    }
+    if(type === 'prev' && calendarApi) {
+      calendarApi.prev();
+      return;
+    }
+    calendarApi.next();
+  }
   
   const eventsData = ListEvent.data.map((item, index) => {
     return  {
@@ -87,7 +100,11 @@ export const MyCalendar = () => {
     return <div className='calendar__page'>
         <div className='calendar__container'>
           <div className='calendar__container__header'>
-             <Header viewType = {viewType} onChangeFilter={onChangeviewType} getDatePicker={getDatePicker}/>
+             <Header
+                viewType = {viewType} 
+                onChangeFilter={onChangeviewType} 
+                getDatePicker={getDatePicker} 
+                calendarJump={calendarJump}/>
           </div>
           <div className='calendar__container__main'>
              <div id='calendar-container'>
@@ -100,12 +117,7 @@ export const MyCalendar = () => {
                  events = {eventsData}
                  editable = {true}
                  eventDragStop={deleteEvent}
-                //  customButtons= {
-                //  { prev: {
-                //   text: '<<',
-                //   click: jumpWithSize
-                // }}
-                // }
+                 headerToolbar=  {false}
                />
             </div>
           </div>   
@@ -122,12 +134,3 @@ export const MyCalendar = () => {
       </div>
     </div>
 }
-
-// const jumpWithSize =()=> {
-//   const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
-//   // calendarApi && calendarApi.changeView( 'resourceTimeline', {
-//   //   start: '2020-10-01',
-//   //   end: '2020-10-07'
-//   // } );
-//   calendarApi.incrementDate( { days: -7 } );
-// }
