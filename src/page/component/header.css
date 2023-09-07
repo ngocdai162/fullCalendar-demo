@@ -16,3 +16,6 @@
     display: flex;
     margin-left: 30px;
 }
+.ant-dropdown-menu-item button {
+    width: 100%;
+}

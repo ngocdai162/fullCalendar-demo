@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./header.css"
 import { filterConst } from "../../const/calendar";
 import { Dropdown } from 'antd';
-import { DownOutlined , RightOutlined, LeftOutlined} from '@ant-design/icons';
+import { DownOutlined} from '@ant-design/icons';
+import "react-datepicker/dist/react-datepicker.css";
+import "./header.css"
 
 
 export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
@@ -18,6 +18,11 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
             getDatePicker(startDateStr,endDateStr)
         }
     }, [startDate,endDate])
+
+    useEffect(()=> {
+        console.log('viewType', viewType)
+    },[viewType])
+
   
     const items = [
         {
@@ -33,11 +38,19 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
             key: '2',
         },
         {
-            label: <button onClick={() => handleAddDate(14)}>{filterConst.week_2.content}</button>,
+            // label: <button onClick={() => jumpToDate(14)}>{filterConst.week_2.content}</button>,
+            label: <button onClick={() =>{
+                jumpToDate(14);
+                onChangeFilter(filterConst.week_2)
+            }}>{filterConst.week_2.content}</button>,
             key: '4',
         },
         {
-            label: <button onClick={() => handleAddDate(21)}>{filterConst.week_3.content}</button>,
+            // label: <button onClick={() => jumpToDate(21)}>{filterConst.week_3.content}</button>,
+            label: <button onClick={() =>{
+                jumpToDate(21);
+                onChangeFilter(filterConst.week_3)
+            }}>{filterConst.week_3.content}</button>,
             key: '5',
         },
     ]
@@ -55,12 +68,16 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
         return `${str.getFullYear()}-${monthStr}-${dateStr}`;
     }
 
-    const handleAddDate = (size) => {
+    const jumpToDate = (size) => {
         let datePoint =  new Date();
         datePoint.setDate(datePoint.getDate() + size)
         setStartDate(new Date());
         setEndDate(datePoint)
     }
+
+    // const controlJump = () => {
+    //     if()
+    // }
  
     return (
         <div className="header">
@@ -87,6 +104,10 @@ export const Header = ({viewType, onChangeFilter, getDatePicker}) => {
               selectsRange
               monthsShown={2}
              />
+            </div>
+            <div>
+                {/* <button onClick={}>Prev</button>
+                <button onClick={}>Next</button> */}
             </div>
         </div>
     )

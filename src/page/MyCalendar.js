@@ -3,11 +3,10 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid'
-import './myCalendar.css';
 import { ListEvent } from '../data/listEvent';
 import { Header } from './component/Header';
 import { filterConst } from '../const/calendar';
-
+import './myCalendar.css';
 
 export const MyCalendar = () => {
   const containerEl = useRef(null);
@@ -20,6 +19,7 @@ export const MyCalendar = () => {
   });
 
   useEffect(()=> {
+    if(checkViewType() === false) return ;
     const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
     calendarApi && calendarApi.changeView(viewType.type);
   },[viewType])
@@ -48,7 +48,7 @@ export const MyCalendar = () => {
   },[dragObj])
 
  const onChangeviewType = (type) => {
-  setviewType(type)
+   setviewType(type)
  }   
   
  const getDatePicker = (start, end) => {
@@ -57,11 +57,24 @@ export const MyCalendar = () => {
     endDate : end
    })
   }
-  
-  const handleDateClick = (info) => {
-    info.event.remove()
+
+  const getInitialView = () => {
+    if(viewType.type === filterConst.day.type)   return 'timeGridDay';
+    if(viewType.type === filterConst.week.type)   return'timeGridWeek';
+    if(viewType.type === filterConst.month.type)   return 'dayGridMonth';
   }
 
+  const checkViewType = () => {
+    if(viewType.type === filterConst.day.type || 
+      viewType.type === filterConst.week.type || 
+      viewType.type === filterConst.month.type) return true;
+    return false;
+  }
+  
+  const deleteEvent= (info) => {
+    info.event.remove()
+  }
+  
   const eventsData = ListEvent.data.map((item, index) => {
     return  {
       id :item.event.id,
@@ -82,13 +95,17 @@ export const MyCalendar = () => {
                  plugins={[timeGridPlugin, interactionPlugin,dayGridPlugin]}
                  defaultView= 'timeGridWeek'
                  droppable ={true}
-                 dateClick={handleDateClick}
-                 initialView={viewType.type}
+                 initialView={getInitialView()}
                  ref={calendarRef}
                  events = {eventsData}
                  editable = {true}
-                
-                 eventClick= {handleDateClick}
+                 eventDragStop={deleteEvent}
+                //  customButtons= {
+                //  { prev: {
+                //   text: '<<',
+                //   click: jumpWithSize
+                // }}
+                // }
                />
             </div>
           </div>   
@@ -106,3 +123,11 @@ export const MyCalendar = () => {
     </div>
 }
 
+// const jumpWithSize =()=> {
+//   const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
+//   // calendarApi && calendarApi.changeView( 'resourceTimeline', {
+//   //   start: '2020-10-01',
+//   //   end: '2020-10-07'
+//   // } );
+//   calendarApi.incrementDate( { days: -7 } );
+// }
