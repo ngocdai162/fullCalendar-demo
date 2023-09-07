@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fullCalendar-demo/static/css/main.d6e61871.css",
+    "main.js": "/fullCalendar-demo/static/js/main.685e2ed9.js",
+    "index.html": "/fullCalendar-demo/index.html",
+    "main.d6e61871.css.map": "/fullCalendar-demo/static/css/main.d6e61871.css.map",
+    "main.685e2ed9.js.map": "/fullCalendar-demo/static/js/main.685e2ed9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d6e61871.css",
+    "static/js/main.685e2ed9.js"
+  ]
+}
