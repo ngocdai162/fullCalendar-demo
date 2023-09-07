@@ -14,6 +14,10 @@ export const Header = ({viewType, onChangeFilter, getDatePicker, calendarJump}) 
     useEffect(()=> {
         renderPickerWithViewType()
     }, [viewType])
+
+    useEffect(()=> {
+        getDatePicker(startDate, endDate)
+    },[startDate, endDate])
     
     const onChange = (dates ) => {
         const [start, end] = dates;

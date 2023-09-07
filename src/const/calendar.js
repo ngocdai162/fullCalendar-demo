@@ -22,3 +22,9 @@ export const filterConst = {
     }
 }
 
+export const CALENDAR_MODE = {
+    DAY : 'timeGridDay',
+    WEEK : 'timeGridWeek',
+    MONTH: 'dayGridMonth'
+}
+

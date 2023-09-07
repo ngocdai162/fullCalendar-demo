@@ -5,13 +5,20 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { ListEvent } from '../data/listEvent';
 import { Header } from './component/Header';
-import { filterConst } from '../const/calendar';
+import { CALENDAR_MODE, filterConst } from '../const/calendar';
 import './myCalendar.css';
+import { Sidebar } from './component/sidebar/Sidebar';
 
 export const MyCalendar = () => {
-  const containerEl = useRef(null);
   const calendarRef = useRef(null)
-  const dragObj = useRef(false);
+  // const [calendarEvents, setCalendarEvents] =  useState(()=> ListEvent.data.map((item, index) => {
+  //   return  {
+  //     id :item.event.id,
+  //     title:item.tile.content,
+  //     start : item.time_window.start,
+  //     end : item.time_window.end
+  //   }
+  // }));
   const [viewType, setviewType] = useState(filterConst.day);
   const [datePicker, setDatePicker] = useState({
     startDate: null,
@@ -19,33 +26,19 @@ export const MyCalendar = () => {
   });
 
   useEffect(()=> {
-    if(checkViewType() === false) return ;
+    if(!checkViewType()) return ;
     const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
     calendarApi && calendarApi.changeView(viewType.type);
   },[viewType])
 
   useEffect(() => {
+    console.log('đỏi')
     const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
     calendarApi && calendarApi.changeView('timeGrid',{
       start: datePicker.startDate,
       end:  datePicker.endDate
     });
   },[datePicker])
-
-
-  useEffect(()=> {
-   if(dragObj.current === false) {
-    dragObj.current =  new Draggable(containerEl.current, {
-      itemSelector:'.event__block',
-      eventData : (eventEl) => {
-        return {
-          title: eventEl.innerText,
-          duration: '02:00',
-        };
-      }
-    });
-   }
-  },[dragObj])
 
  const onChangeviewType = (type) => {
    setviewType(type)
@@ -59,10 +52,14 @@ export const MyCalendar = () => {
   }
 
   const getInitialView = () => {
-    if(viewType.type === filterConst.day.type)   return 'timeGridDay';
-    if(viewType.type === filterConst.week.type)   return'timeGridWeek';
-    if(viewType.type === filterConst.month.type)   return 'dayGridMonth';
+    switch (viewType.type) {
+      case filterConst.day.type :  return CALENDAR_MODE.DAY;
+      case filterConst.week.type :  return CALENDAR_MODE.WEEK;
+      case filterConst.month.type :  return CALENDAR_MODE.MONTH;
+      default:  console.log('empty')
+    }
   }
+
 
   const checkViewType = () => {
     if(viewType.type === filterConst.day.type || 
@@ -70,6 +67,8 @@ export const MyCalendar = () => {
       viewType.type === filterConst.month.type) return true;
     return false;
   }
+
+
   
   const deleteEvent= (info) => {
     info.event.remove()
@@ -88,6 +87,20 @@ export const MyCalendar = () => {
     calendarApi.next();
   }
   
+ 
+  // const handleReceive = (info) => {
+  //   const objDrag   =  findEventById(info.draggedEl.id, ListEvent.data)
+  //   setCalendarEvents(calendarEvents => [...calendarEvents,{
+  //     title: objDrag.tile.content,
+  //     start : objDrag.time_window.start,
+  //     end : objDrag.time_window.end
+  //   }])
+  // }
+
+  const findEventById = (id, arr) => {
+    return arr.find((item) => item.event.id === id);
+  }
+  
   const eventsData = ListEvent.data.map((item, index) => {
     return  {
       id :item.event.id,
@@ -96,7 +109,6 @@ export const MyCalendar = () => {
       end : item.time_window.end
     }
   })
-
     return <div className='calendar__page'>
         <div className='calendar__container'>
           <div className='calendar__container__header'>
@@ -114,23 +126,18 @@ export const MyCalendar = () => {
                  droppable ={true}
                  initialView={getInitialView()}
                  ref={calendarRef}
+                //  events = {calendarEvents}
                  events = {eventsData}
                  editable = {true}
                  eventDragStop={deleteEvent}
                  headerToolbar=  {false}
+                //  eventReceive={handleReceive}
                />
             </div>
           </div>   
        </div>
       <div className='calendar__sidebar'>
-          <h1>List event</h1>
-          <div ref={containerEl} className='calendar__sidebar__container'>
-            {ListEvent.data.map((item, index) => (
-               <div className='event__block' draggable= {true} >
-                 <p>{item.tile.header}<br/>{item.tile.content.join(" ")}</p>
-               </div>
-            ))}
-          </div>
+          <Sidebar/>
       </div>
     </div>
 }
