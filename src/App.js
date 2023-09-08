@@ -1,4 +1,4 @@
-import { PageTest } from './component/PageTest';
+import { PageTest } from './page/PageTest';
 import { MyCalendar } from './page/MyCalendar';
 
 function App() {

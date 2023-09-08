@@ -1,0 +1,29 @@
+.jobs-chart {
+    border:  1px solid  #000;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+}
+
+.jobs-chart__info {
+    width: 60%;
+    padding: 0px 30px;
+}
+
+.jobs-chart__draw {
+    width: 40%;
+
+}
+
+.info-block {
+    display: flex;
+    justify-content: space-between;
+}
+.percent-info {
+    color:  #777;
+}
+
+.value-info {
+    color : #000;
+}
