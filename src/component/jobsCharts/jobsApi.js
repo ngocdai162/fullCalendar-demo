@@ -17,21 +17,3 @@ export const jobsApi = {
         },
     ],
 };
-
-
-// const configRef = useRef(null);
-    // useEffect(() => {
-    //   var temp  = {
-    //     status :[], 
-    //     percent : [], 
-    //     color: []
-    //   }
-    //   jobsData.forEach(item => {
-    //     temp.status.push(item.status);
-    //     temp.percent.push(item.percent);
-    //     temp.color.push(item.color);
-    //   });
-    //   configRef.current = temp;
-    // },[])
-
-    // console.log('configRef', configRef)

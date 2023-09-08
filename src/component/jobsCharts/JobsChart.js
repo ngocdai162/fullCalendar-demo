@@ -1,25 +1,39 @@
 import { DoughnutChart } from "../doughnutChart/DoughnutChart";
 import {jobsApi} from './jobsApi'
 import './chartStyle.css';
-// import { useEffect, useRef } from "react";
+import {  useRef } from "react";
 
-// 
 export const JobsChart = ()=> {
     const {total, data : jobsData} = jobsApi;
-    
-    const config = {
+    const configRef = useRef(null);
+
+    const getConfig = () => {
+      let temp  = {
+        status :[], 
+        percent : [], 
+        color: []
+      }
+      jobsData.forEach(item => {
+        temp.status.push(item.status);
+        temp.percent.push(item.percent);
+        temp.color.push(item.color);
+      });
+
+      return  {
         type: 'doughnut',
         data: {
-          labels: jobsData.map(row => row.status),
+          labels: temp.status,
           datasets: [
             {
               label: 'Chart',
-              data: jobsData.map(row => row.percent),
-              backgroundColor: jobsData.map(item => item.color)
+              data: temp.percent,
+              backgroundColor: temp.color
             }
           ]
         }
+      }
     }
+    configRef.current = getConfig();
 
     const renderInfo = (info) => {
       const {status, percent, value, color} =  info;
@@ -39,7 +53,7 @@ export const JobsChart = ()=> {
             {jobsData.map((item, index) => renderInfo(item))}
           </div>
           <div className='jobs-chart__draw'>
-            <DoughnutChart config={config}/>
+            <DoughnutChart config={ configRef.current}/>
           </div>
         </div>
         
