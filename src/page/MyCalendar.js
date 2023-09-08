@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { ListEvent } from '../data/listEvent';
 import { Header } from './component/Header';
-import { CALENDAR_MODE, filterConst } from '../const/calendar';
+import { CALENDAR_MODE, CONTROL, FILTER_MODE } from '../const/calendar';
 import './myCalendar.css';
 import { Sidebar } from './component/sidebar/Sidebar';
 
@@ -19,7 +19,10 @@ export const MyCalendar = () => {
   //     end : item.time_window.end
   //   }
   // }));
-  const [viewType, setviewType] = useState(filterConst.day);
+  const [viewType, setviewType] = useState({
+    type :  CALENDAR_MODE.DAY,
+    content:  FILTER_MODE.DAY.CONTENT
+  });
   const [datePicker, setDatePicker] = useState({
     startDate: null,
     endDate:  null
@@ -32,7 +35,6 @@ export const MyCalendar = () => {
   },[viewType])
 
   useEffect(() => {
-    console.log('đỏi')
     const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
     calendarApi && calendarApi.changeView('timeGrid',{
       start: datePicker.startDate,
@@ -53,21 +55,19 @@ export const MyCalendar = () => {
 
   const getInitialView = () => {
     switch (viewType.type) {
-      case filterConst.day.type :  return CALENDAR_MODE.DAY;
-      case filterConst.week.type :  return CALENDAR_MODE.WEEK;
-      case filterConst.month.type :  return CALENDAR_MODE.MONTH;
+      case FILTER_MODE.DAY.TYPE :  return CALENDAR_MODE.DAY;
+      case FILTER_MODE.WEEK.TYPE :  return CALENDAR_MODE.WEEK;
+      case FILTER_MODE.MONTH.TYPE :  return CALENDAR_MODE.MONTH;
       default:  console.log('empty')
     }
   }
 
-
   const checkViewType = () => {
-    if(viewType.type === filterConst.day.type || 
-      viewType.type === filterConst.week.type || 
-      viewType.type === filterConst.month.type) return true;
+    if(viewType.type === FILTER_MODE.DAY.TYPE || 
+      viewType.type === FILTER_MODE.WEEK.TYPE || 
+      viewType.type === FILTER_MODE.MONTH.TYPE) return true;
     return false;
   }
-
 
   
   const deleteEvent= (info) => {
@@ -76,11 +76,14 @@ export const MyCalendar = () => {
 
   const  calendarJump = (type) => {
     const calendarApi = calendarRef.current ? calendarRef.current.getApi() : null;
-    if(type === 'today') { 
-      setviewType(filterConst.day)
+    if(type === CONTROL.TODAY) { 
+      setviewType({
+        type:  FILTER_MODE.DAY.TYPE,
+        content : FILTER_MODE.DAY.CONTENT
+      })
       return;
     }
-    if(type === 'prev' && calendarApi) {
+    if(type === CONTROL.PREV && calendarApi) {
       calendarApi.prev();
       return;
     }
@@ -122,14 +125,15 @@ export const MyCalendar = () => {
              <div id='calendar-container'>
                <FullCalendar
                  plugins={[timeGridPlugin, interactionPlugin,dayGridPlugin]}
-                 defaultView= 'timeGridWeek'
+                 defaultView= {CALENDAR_MODE.WEEK}
                  droppable ={true}
                  initialView={getInitialView()}
                  ref={calendarRef}
                 //  events = {calendarEvents}
                  events = {eventsData}
+                 eventContent = {() => <div>hello</div>} // custom event render
                  editable = {true}
-                 eventDragStop={deleteEvent}
+                 eventDragStop={deleteEvent} 
                  headerToolbar=  {false}
                 //  eventReceive={handleReceive}
                />

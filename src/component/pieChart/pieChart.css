@@ -1,0 +1,15 @@
+.pie-chart {
+    border:  1px solid  #000;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    height: 300px;
+    width: 800px;
+}
+
+.pie-chart__info {
+    width: 60%;
+}
+.pie-chart__draw {
+    width: 40%;
+}

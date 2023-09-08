@@ -1,24 +1,24 @@
 
-export const filterConst = {
-    day : {
-        type :  'timeGridDay',
-        content: 'day'
+export const FILTER_MODE = {
+    DAY : {
+        TYPE :  'timeGridDay',
+        CONTENT: 'day'
     },
-    week : {
-        type :  'timeGridWeek',
-         content: 'week'
+    WEEK : {
+        TYPE :  'timeGridWeek',
+         CONTENT: 'week'
     },
-    month : {
-        type : 'dayGridMonth',
-        content:  'month'
+    MONTH : {
+        TYPE : 'dayGridMonth',
+        CONTENT:  'month'
     },
-    week_2 : {
-        type: '2-week',
-        content:  '2 Weeks'
+    WEEK_2 : {
+        TYPE: '2-week',
+        CONTENT:  '2 Weeks'
     },
-    week_3 : {
-        type: '3-week',
-        content:  '3 Weeks'
+    WEEK_3 : {
+        TYPE: '3-week',
+        CONTENT:  '3 Weeks'
     }
 }
 
@@ -28,3 +28,8 @@ export const CALENDAR_MODE = {
     MONTH: 'dayGridMonth'
 }
 
+export const CONTROL = {
+    PREV : 'previous',
+    NEXT : 'next',
+    TODAY : 'today'
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
-import { filterConst } from "../../const/calendar";
+import { CONTROL, FILTER_MODE } from "../../const/calendar";
 import { Dropdown } from 'antd';
 import { DownOutlined} from '@ant-design/icons';
 import "react-datepicker/dist/react-datepicker.css";
@@ -38,12 +38,12 @@ export const Header = ({viewType, onChangeFilter, getDatePicker, calendarJump}) 
     }
 
     const controlJump = (typeControl) => {
-        if(viewType.type === filterConst.week_2.type) {
+        if(viewType.type === FILTER_MODE.WEEK_2.type) {
            const {start, end} = findStartEnd(typeControl, 14)
            sendDate(start, end)
            return;
         }
-        if(viewType.type === filterConst.week_3.type) {
+        if(viewType.type === FILTER_MODE.WEEK_3.type) {
             const {start, end} = findStartEnd(typeControl, 21)
             sendDate(start, end)
             return ;
@@ -52,8 +52,8 @@ export const Header = ({viewType, onChangeFilter, getDatePicker, calendarJump}) 
     }
 
     const findStartEnd = (typeControl, size) => {
-        let start =  findDate(startDate, typeControl === 'prev'  ? - size : size)
-        let end = findDate(endDate, typeControl === 'prev'  ? - size : size)
+        let start =  findDate(startDate, typeControl === CONTROL.PREV  ? - size : size)
+        let end = findDate(endDate, typeControl === CONTROL.NEXT  ? - size : size)
         return {start: start, end: end}
     }
 
@@ -75,46 +75,60 @@ export const Header = ({viewType, onChangeFilter, getDatePicker, calendarJump}) 
     }
 
     const renderPickerWithViewType = () => {
-        if(viewType.type === filterConst.day.type) {
+        if(viewType.type === FILTER_MODE.DAY.TYPE) {
             setStartDate(new Date());
             setEndDate(new Date());
             return;
         }
-        if(viewType.type === filterConst.week.type) {
+        if(viewType.type === FILTER_MODE.WEEK.TYPE) {
             jumpToDate(7);
             return;
         }
-        if(viewType.type === filterConst.month.type) {
+        if(viewType.type === FILTER_MODE.MONTH.TYPE) {
             jumpToDate(30);
         }
-
     }
 
-    const items = [
+    const filterItems = [
         {
-            label: <button onClick={() => onChangeFilter(filterConst.day)}>{filterConst.day.content}</button>,
+            label: <button onClick={() => onChangeFilter({
+                type:  FILTER_MODE.DAY.TYPE,
+                content: FILTER_MODE.DAY.CONTENT
+            })}>{FILTER_MODE.DAY.CONTENT}</button>,
             key: '0',
         },
         {
-            label: <button onClick={() => onChangeFilter(filterConst.week)}>{filterConst.week.content}</button>,
+            label: <button onClick={() => onChangeFilter({
+                type:  FILTER_MODE.WEEK.TYPE,
+                content: FILTER_MODE.WEEK.CONTENT
+            })}>{FILTER_MODE.WEEK.CONTENT}</button>,
             key: '1',
         },
         {
-            label: <button onClick={() => onChangeFilter(filterConst.month)}>{filterConst.month.content}</button>,
+            label: <button onClick={() => onChangeFilter({
+                type:  FILTER_MODE.MONTH.TYPE,
+                content: FILTER_MODE.MONTH.CONTENT
+            })}>{FILTER_MODE.MONTH.CONTENT}</button>,
             key: '2',
         },
         {
             label: <button onClick={() =>{
                 jumpToDate(14);
-                onChangeFilter(filterConst.week_2)
-            }}>{filterConst.week_2.content}</button>,
+                onChangeFilter({
+                    type:  FILTER_MODE.WEEK_2.TYPE,
+                    content: FILTER_MODE.WEEK_2.CONTENT
+                })
+            }}>{FILTER_MODE.WEEK_2.CONTENT}</button>,
             key: '4',
         },
         {
             label: <button onClick={() =>{
                 jumpToDate(21);
-                onChangeFilter(filterConst.week_3)
-            }}>{filterConst.week_3.content}</button>,
+                onChangeFilter({
+                    type:  FILTER_MODE.WEEK_3.TYPE,
+                    content: FILTER_MODE.WEEK_3.CONTENT
+                })
+            }}>{FILTER_MODE.WEEK_3.CONTENT}</button>,
             key: '5',
         },
     ]
@@ -125,7 +139,7 @@ export const Header = ({viewType, onChangeFilter, getDatePicker, calendarJump}) 
             <div className="calendar-filter">
              <Dropdown
               menu={{
-                items
+                items :  filterItems
               }}
               trigger={['click']}
              > 
@@ -147,9 +161,9 @@ export const Header = ({viewType, onChangeFilter, getDatePicker, calendarJump}) 
              />
             </div>
             <div className="control-block">
-                <button  onClick={() =>calendarJump('today')}>Today</button>
-                <button onClick={() => controlJump('prev')}>Prev</button> 
-                <button onClick={() => controlJump('next')}>Next</button> 
+                <button  onClick={() =>calendarJump(CONTROL.TODAY)}>Today</button>
+                <button onClick={() => controlJump(CONTROL.PREV)}>Prev</button> 
+                <button onClick={() => controlJump(CONTROL.NEXT)}>Next</button> 
             </div>
         </div>
     )
