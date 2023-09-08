@@ -20,10 +20,26 @@
     display: flex;
     justify-content: space-between;
 }
+
+.info-status {
+    display: flex;
+    align-items: center;
+}
+
+
+.circle-block {
+    width: 10px;
+    height: 10px; 
+    border-radius:  50%;
+    margin-right :  10px;
+}
+
 .percent-info {
-    color:  #777;
+    color:  #a7a7a7;
 }
 
 .value-info {
+    font-size: 18px;
+    font-weight: 600;
     color : #000;
 }

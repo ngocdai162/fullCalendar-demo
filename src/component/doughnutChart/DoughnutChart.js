@@ -8,15 +8,14 @@ export const DoughnutChart = ({config}) => {
     const chartCanva = useRef(null);
    
     useEffect(()=> {
-        if(chartRef) {
-          if(chartCanva.current != null) {
-            chartCanva.current.destroy();
-          }
-          chartCanva.current= new Chart(
-            chartRef.current, config
-          );
-        }
-    },[chartRef])
+      if(chartCanva.current != null) {
+        chartCanva.current.destroy();
+      }
+      chartCanva.current= new Chart(
+        chartRef.current, 
+          config,
+      );
+    },[])
 
     return(
         <div className='doughnut-chart'>

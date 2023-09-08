@@ -8,52 +8,67 @@ export const JobsChart = ()=> {
     const configRef = useRef(null);
 
     const getConfig = () => {
-      let temp  = {
+      let jobsInputConfig  = {
         status :[], 
         percent : [], 
         color: []
       }
       jobsData.forEach(item => {
-        temp.status.push(item.status);
-        temp.percent.push(item.percent);
-        temp.color.push(item.color);
+        jobsInputConfig.status.push(item.status);
+        jobsInputConfig.percent.push(item.percent);
+        jobsInputConfig.color.push(item.color);
       });
-
       return  {
         type: 'doughnut',
         data: {
-          labels: temp.status,
+          labels: jobsInputConfig.status,
           datasets: [
             {
               label: 'Chart',
-              data: temp.percent,
-              backgroundColor: temp.color
+              data: jobsInputConfig.percent,
+              backgroundColor: jobsInputConfig.color
             }
-          ]
+          ],
+          option : { legend: {
+            display: false
+         },}
+        },
+        options: {
+          plugins: {
+              legend: {
+                  display: false
+              }
+          }
         }
       }
     }
+
     configRef.current = getConfig();
 
-    const renderInfo = (info) => {
-      const {status, percent, value, color} =  info;
-      return (
+    const renderFc = () => {
+      return jobsData.map(({color, status, percent, value}, index) => {
+        return (
           <div className="info-block">
-            <span style={{color: color}}>{status}</span>
+            <div className="info-status">
+              <div style={{backgroundColor: color}} className="circle-block"/>
+              <span style={{color: color}}>{status}</span>
+            </div>
             <span className="percent-info">{percent}</span>
             <span className="value-info">{value}</span>
           </div>
-      )
+        )
+      })
     }
+    
     
     return (
         <div className='jobs-chart'>
           <div className='jobs-chart__info'>
             <h1>{total}</h1>
-            {jobsData.map((item, index) => renderInfo(item))}
+            {renderFc()}
           </div>
           <div className='jobs-chart__draw'>
-            <DoughnutChart config={ configRef.current}/>
+            <DoughnutChart config = {configRef.current}/>
           </div>
         </div>
         
